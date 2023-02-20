@@ -1,0 +1,56 @@
+import java.util.Scanner;
+
+public class maximum {
+    public static int arr[];
+    public static boolean visited[];
+    public static int N;
+    public static int max = Integer.MIN_VALUE;
+    public static int select[];
+
+    public static void main(String[] args) {
+        Scanner sc = new Scanner(System.in);
+
+        N = sc.nextInt();
+        arr = new int[N];
+        visited = new boolean[N];
+        select = new int[N];
+
+        for(int i=0; i<N;i++){
+            arr[i] = sc.nextInt();
+        }
+
+        dfs(0);
+        System.out.println(max);
+
+
+    }
+
+    public static void dfs(int count){
+        //count와 N이 같을 경우 return
+        if(count == N){
+            max = Math.max(max,getCalculator());
+            return;
+        }
+        //배열의 갯수만큼 반복
+        for(int i=0; i<N;i++){
+            //해당 배열을 방문하지 않았을 경우
+            if(!visited[i]){
+                //해당배열 방문하기
+                visited[i] = true;
+                select[count] = arr[i];
+                //dfs
+                dfs(count+1);
+                //해당배열 방문초기화
+                visited[i] = false;
+            }
+        }
+    }
+
+    public static int getCalculator(){
+        int sum = 0;
+        for(int i=0; i<N-1;i++){
+            sum += Math.abs(select[i]-select[i+1]);
+        }
+        return sum;
+    }
+}
