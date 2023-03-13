@@ -40,20 +40,18 @@ public class GuitarPlay {
         //스택에 아무것도 안쌓여있을때 즉, 처음
         System.out.println(pressN + ", finger Inner "+pressP);
         if(stack[pressN-1].isEmpty()){
-            System.out.println(222);
             stack[pressN - 1].push(pressP);
             count++;
+            return;
         }else{// 쌓여있을떄
             while(stack[pressN-1].peek()>pressP){
                 int top = stack[pressN-1].peek();
+                count++;
                 if(top < pressP){
                     stack[pressN - 1].push(pressP);
-                    count++;
-                    return;
+                    break;
                 }else if(top > pressP){
                     stack[pressN - 1].pop();
-                    count++;
-
                 }
 
                 //탈출
