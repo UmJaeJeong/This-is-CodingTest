@@ -1,8 +1,9 @@
-import java.io.*;
+import java.io.BufferedReader;
+import java.io.IOException;
+import java.io.InputStreamReader;
 import java.util.*;
 
 public class GuitarPlay {
-    //1~6 기타줄
     static Stack<Integer>[] stack;
     static int N;
     static int P;
@@ -15,14 +16,12 @@ public class GuitarPlay {
             st = new StringTokenizer(br.readLine(), " ");
             N = Integer.parseInt(st.nextToken());
             P = Integer.parseInt(st.nextToken());
-            stack = new Stack[6];
-            for (int i=0; i<6;i++) {
+            stack = new Stack[7];
+            for (int i=0; i<7;i++) {
                 stack[i] = new Stack<>();
-
             }
 
             for(int i=0; i<N;i++){
-                System.out.println(i+", i");
                 st = new StringTokenizer(br.readLine(), " ");
                 int pressN = Integer.parseInt(st.nextToken());
                 int pressP = Integer.parseInt(st.nextToken());
@@ -33,30 +32,25 @@ public class GuitarPlay {
         } catch (IOException e) {
             e.printStackTrace();
         }
-        System.out.println("count : "+count);
+        System.out.println(count);
     }
 
     public static void fingerMoveCheck(int pressN, int pressP){
-        //스택에 아무것도 안쌓여있을때 즉, 처음
-        System.out.println(pressN + ", finger Inner "+pressP);
-        if(stack[pressN-1].isEmpty()){
-            stack[pressN - 1].push(pressP);
+        //스택이 비었을때 (해당 줄의 플랫을 누르지 않았을때
+        if(stack[pressN].isEmpty()){
+            stack[pressN].push(pressP);
             count++;
             return;
-        }else{// 쌓여있을떄
-            while(stack[pressN-1].peek()>pressP){
-                int top = stack[pressN-1].peek();
-                count++;
-                if(top < pressP){
-                    stack[pressN - 1].push(pressP);
-                    break;
-                }else if(top > pressP){
-                    stack[pressN - 1].pop();
-                }
-
-                //탈출
-                if(!stack[pressN-1].isEmpty()&&top == stack[pressN-1].peek()) return;
-            }
+        }
+        //스택에 들어와있을떄
+        while(stack[pressN].peek()>pressP){
+            count++;
+            stack[pressN].pop();
+            if(stack[pressN].isEmpty()) break;
+        }
+        if(stack[pressN].isEmpty() || stack[pressN].peek()<pressP){
+            count++;
+            stack[pressN].push(pressP);
         }
     }
 }
