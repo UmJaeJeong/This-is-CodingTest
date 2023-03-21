@@ -25,7 +25,7 @@ public class Main {
             dfs(0, "");
             System.out.println(sb.toString());
         } catch (Exception e) {
-            System.out.println("에러 발생: " + e.toString());
+            
         }
     }
 
